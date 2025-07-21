@@ -23,21 +23,29 @@ Suitable for embedded systems using FreeRTOS via CMSIS on STM32 and other ARM Co
 #include "cmsis_os2.h"
 #include "rtos_static_alloc.h"
 
+// Thread
 OS_THREAD_STATIC(myTask, 256, osPriorityNormal)
 void myTaskFn(void*) {
   // Task code here
 }
 osThreadId_t tid = osThreadNew(myTaskFn, NULL, &myTask_attributes);
 
-
+// Mutex
 OS_MUTEX_STATIC(myMutex)
 osMutexId_t mid = osMutexNew(&myMutex_attributes);
 
-
+// Semaphore
 OS_SEMAPHORE_STATIC(mySemaphore)
 osSemaphoreId_t sid = osSemaphoreNew(5, 2, &mySemaphore_attributes);  // max 5, initial 2
 
+// Timer
+OS_TIMER_STATIC(myTimer)
+void timerCallback(void *arg) {
+    // Timer callback logic
+}
+osTimerId_t tid = osTimerNew(timerCallback, osTimerOnce, NULL, &myTimer_attributes);
 
+// Memory Pool
 typedef struct {
     uint8_t data[16];
 } Block;
